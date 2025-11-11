@@ -1,0 +1,59 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+
+\usepackage[a4paper,margin=1.8cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.05}
+% \renewcommand{\baselinestretch}{1.05}
+\usepackage{parskip}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{}{0em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\usepackage{amsmath, amssymb, amsthm, mathtools, bm}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage{dsfont}
+
+\usepackage{minted}
+\setminted{
+    fontsize=\footnotesize,
+    breaklines,
+    tabsize=4,
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.1,
+}
+
+% \usepackage{listings}
+% \lstset{
+%     basicstyle=\ttfamily\footnotesize,
+%     frame=lines,
+%     breaklines=true,
+%     tabsize=4,
+%     language=C++,
+%     showstringspaces=false,
+% }
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{calc, patterns, intersections}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    urlcolor=blue!70!black
+}
+
+
+\usepackage{multicol}
+\setlength{\columnseprule}{0.4pt}
+
+\newcommand{\addtemplate}[1]{
+	\immediate\write18{python3 ./scripts/prepare.py < ./content/#1}
+	\input{/tmp/gempro-prepared-template.tex}
+	\immediate\write18{rm -f /tmp/gempro-prepared-template.tex}
+}
