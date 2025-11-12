@@ -11,7 +11,7 @@ i64 egcd(i64 a, i64 b, i64 &x, i64 &y) {
 		return a;
 	}
 	i64 g = egcd(b, a % b, y, x);
-	y -= a / b;
+	y -= (a / b) * x;
 	return g;
 }
 // end template //
