@@ -26,7 +26,7 @@ struct LiChao {
 		} else {
 			if (tl + 1 == tr) return;
 			insert(line, L, R, tm, tr, i << 1 | 1);
-			insert(line, L, R, tl, tm, 1 << 1);
+			insert(line, L, R, tl, tm, i << 1);
 		}
 	}
 	Line query(int x) {

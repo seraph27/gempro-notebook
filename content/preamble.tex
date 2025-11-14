@@ -16,7 +16,7 @@
 \usepackage{siunitx}
 \usepackage{dsfont}
 
-\usepackage{minted}
+\usepackage[newfloat]{minted}
 \setminted{
     fontsize=\footnotesize,
     breaklines,
@@ -24,6 +24,13 @@
     frame=lines,
     framesep=2mm,
     baselinestretch=1.1,
+}
+\usepackage{caption}
+
+\captionsetup[listing]{
+	labelformat=empty,
+	justification=raggedright,
+	singlelinecheck=off
 }
 
 % \usepackage{listings}
@@ -53,7 +60,7 @@
 \setlength{\columnseprule}{0.4pt}
 
 \newcommand{\addtemplate}[1]{
-	\immediate\write18{python3 ./scripts/prepare.py < ./content/#1}
+	\immediate\write18{python3 ./scripts/prepare.py #1 < ./content/#1}
 	\input{/tmp/gempro-prepared-template.tex}
 	\immediate\write18{rm -f /tmp/gempro-prepared-template.tex}
 }

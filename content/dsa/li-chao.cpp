@@ -20,7 +20,7 @@ struct LiChao {
 		if (line(tm) < t[i](tm)) swap(line, t[i]); // Replace with > in case of finding max
 		if (tl + 1 == tr) return;
 		if (t[i](tl) < line(tl)) insert(line, tm, tr, i << 1 | 1); // Replace with > in case of finding max
-		else insert(line, tl, tm, 1 << 1);
+		else insert(line, tl, tm, i << 1);
 	}
 	Line query(int x) {
 		Line ans = {0, LLONG_MAX}; // Replace with LLONG_MIN in case of finding max
