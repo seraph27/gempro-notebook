@@ -1,2 +1,4 @@
 \subsection{KMP}
+Dada uma string $S$, calcula um array $pre$ de forma que \[pre[i] = \text{ maior valor de } k < i \text{ tal que } S_0 S_1 \cdots S_{k - 1} = S_{i - k + 1}S_{i - k + 2} \cdots S_i \]
+Complexidade: $O(n)$.
 \addtemplate{strings/kmp.cpp}

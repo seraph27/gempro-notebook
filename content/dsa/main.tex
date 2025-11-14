@@ -1,16 +1,40 @@
 \subsection{Fenwick Tree}
-Calcula a soma dos números inteiros em um intervalo de um array.
-Complexidade: $O(\log(n))$.
+Atua com um array de inteiros $a_0, a_1, \dots, a_{n - 1}$. Suporta dois tipos de operação:
+\begin{itemize}
+	\item $add(i, val)$: adiciona o valor $val$ ao índice $i$ ($a_i \to a_i + val$). Complexidade: $O(\log(n))$.
+	\item $sum(L, R)$: Calcula a soma $a_L + a_{L + 1} + \cdots + a_{R - 1}$. Complexidade: $O(\log(n))$.
+\end{itemize}
 \addtemplate{dsa/fenwick-tree.cpp}
 \subsection{Segtree}
-Atua com uma operação $\odot$ em elementos de um tipo $S$, e dado um elemento neutro $e$, tal que $e \odot x = x \odot e = x$.
-Permite calcular $a_l \odot a_{l+1} \odot \dots \odot a_{r - 1}$ em $O(\log(n))$, e atualizar o elemento em alguma posição qualquer em $O(\log(n))$.
+Atua com uma operação $\oplus$ em elementos de uma monoide $S$ com elemento neutro $e$, em um array $a_1, a_2, \dots, a_{n - 1}$ com $a_i \in S$. Suporta dois tipos de operações:
+\begin{itemize}
+	\item $set(i, val)$: modifica o array na posição $i$ ($a_i \to val$). Complexidade: $O(\log(n))$.
+	\item $sum(L, R)$: calcula $a_l \oplus a_{l + 1} \oplus \dots \oplus a_{r - 1}$. Complexidade: $O(\log(n))$.
+\end{itemize}
 \addtemplate{dsa/segtree.cpp}
 \subsection{Disjoin Set Union}
+Representa uma lista de conjuntos, e suporta dois tipos de operações:
+\begin{itemize}
+	\item $merge(X, Y)$: Junta os conjuntos dos números $X$ e $Y$.
+	\item $root(X)$: encontra o elemento representante do conjunto de $X$. Dois números estão no mesmo conjunto quando eles tem o mesmo representante.
+\end{itemize}
 \addtemplate{dsa/dsu.cpp}
 \subsection{Zeta e Mobius}
+Zeta: dada uma função $f: 2^{[1..n]} \to S$, encontra uma função $g: 2^{[1..n]} \to S$ tal que \[g(A) = \sum\limits_{B \subseteq A} f(B)\]
+Mobius: realiza a transformação inversa.
 \addtemplate{dsa/zeta.cpp}
 \subsection{Árvore de Li Chao}
+Suporta dois tipos de operações:
+\begin{itemize}
+	\item $insert(line)$: adiciona a reta $line (y = ax + b)$ ao conjunto de retas. Complexidade: $O(\log(N))$.
+	\item $query(X)$: encontra a reta do conjunto que minimiza o valor $aX + b$. Complexidade: $O(\log(N))$.
+\end{itemize}
+Onde $N$ é o tamanho do intervalo em que as retas atuam.
 \addtemplate{dsa/li-chao.cpp}
 \subsection{Árvore de Li Chao++}
+Suporta dois tipos de operações:
+\begin{itemize}
+	\item $insert(line, L, R)$: adiciona a reta $line (y = ax + b)$ ao conjunto de retas, atuando no intervalo $L, R$. Complexidade: $O(\log^2(R - L))$.
+	\item $query(X)$: encontra a reta do conjunto que minimiza o valor $aX + b$. Complexidade: $O(\log(L))$.
+\end{itemize}
 \addtemplate{dsa/li-chao-extended.cpp}
