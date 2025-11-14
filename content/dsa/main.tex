@@ -1,40 +1,40 @@
 \subsection{Fenwick Tree}
-Atua com um array de inteiros $a_0, a_1, \dots, a_{n - 1}$. Suporta dois tipos de operação:
+Works with an integer array $a_0, a_1, \dots, a_{n - 1}$. Supports two types of operations:
 \begin{itemize}
-	\item $add(i, val)$: adiciona o valor $val$ ao índice $i$ ($a_i \to a_i + val$). Complexidade: $O(\log(n))$.
-	\item $sum(L, R)$: Calcula a soma $a_L + a_{L + 1} + \cdots + a_{R - 1}$. Complexidade: $O(\log(n))$.
+	\item $add(i, val)$: adds value $val$ to index $i$ ($a_i \to a_i + val$). Complexity: $O(\log(n))$.
+	\item $sum(L, R)$: Computes the sum $a_L + a_{L + 1} + \cdots + a_{R - 1}$. Complexity: $O(\log(n))$.
 \end{itemize}
 \addtemplate{dsa/fenwick-tree.cpp}
 \subsection{Segtree}
-Atua com uma operação $\oplus$ em elementos de uma monoide $S$ com elemento neutro $e$, em um array $a_1, a_2, \dots, a_{n - 1}$ com $a_i \in S$. Suporta dois tipos de operações:
+Works with an operation $\oplus$ on elements of a monoid $S$ with neutral element $e$, on an array $a_1, a_2, \dots, a_{n - 1}$ with $a_i \in S$. Supports two types of operations:
 \begin{itemize}
-	\item $set(i, val)$: modifica o array na posição $i$ ($a_i \to val$). Complexidade: $O(\log(n))$.
-	\item $sum(L, R)$: calcula $a_l \oplus a_{l + 1} \oplus \dots \oplus a_{r - 1}$. Complexidade: $O(\log(n))$.
+	\item $set(i, val)$: modifies the array at position $i$ ($a_i \to val$). Complexity: $O(\log(n))$.
+	\item $sum(L, R)$: computes $a_l \oplus a_{l + 1} \oplus \dots \oplus a_{r - 1}$. Complexity: $O(\log(n))$.
 \end{itemize}
 \addtemplate{dsa/segtree.cpp}
 \subsection{Disjoin Set Union}
-Representa uma lista de conjuntos, e suporta dois tipos de operações:
+Represents a collection of sets and supports two types of operations:
 \begin{itemize}
-	\item $merge(X, Y)$: Junta os conjuntos dos números $X$ e $Y$.
-	\item $root(X)$: encontra o elemento representante do conjunto de $X$. Dois números estão no mesmo conjunto quando eles tem o mesmo representante.
+	\item $merge(X, Y)$: Merges the sets of numbers $X$ and $Y$.
+	\item $root(X)$: finds the representative element of the set of $X$. Two numbers are in the same set when they have the same representative.
 \end{itemize}
 \addtemplate{dsa/dsu.cpp}
-\subsection{Zeta e Mobius}
-Zeta: dada uma função $f: 2^{[1..n]} \to S$, encontra uma função $g: 2^{[1..n]} \to S$ tal que \[g(A) = \sum\limits_{B \subseteq A} f(B)\]
-Mobius: realiza a transformação inversa.
+\subsection{Zeta and Mobius}
+Zeta: given a function $f: 2^{[1..n]} \to S$, finds a function $g: 2^{[1..n]} \to S$ such that \[g(A) = \sum\limits_{B \subseteq A} f(B)\]
+Mobius: performs the inverse transformation.
 \addtemplate{dsa/zeta.cpp}
-\subsection{Árvore de Li Chao}
-Suporta dois tipos de operações:
+\subsection{Li Chao Tree}
+Supports two types of operations:
 \begin{itemize}
-	\item $insert(line)$: adiciona a reta $line (y = ax + b)$ ao conjunto de retas. Complexidade: $O(\log(N))$.
-	\item $query(X)$: encontra a reta do conjunto que minimiza o valor $aX + b$. Complexidade: $O(\log(N))$.
+	\item $insert(line)$: adds the line $line (y = ax + b)$ to the set of lines. Complexity: $O(\log(N))$.
+	\item $query(X)$: finds the line in the set that minimizes the value $aX + b$. Complexity: $O(\log(N))$.
 \end{itemize}
-Onde $N$ é o tamanho do intervalo em que as retas atuam.
+Where $N$ is the size of the interval where the lines operate.
 \addtemplate{dsa/li-chao.cpp}
-\subsection{Árvore de Li Chao++}
-Suporta dois tipos de operações:
+\subsection{Li Chao Tree++}
+Supports two types of operations:
 \begin{itemize}
-	\item $insert(line, L, R)$: adiciona a reta $line (y = ax + b)$ ao conjunto de retas, atuando no intervalo $L, R$. Complexidade: $O(\log^2(R - L))$.
-	\item $query(X)$: encontra a reta do conjunto que minimiza o valor $aX + b$. Complexidade: $O(\log(L))$.
+	\item $insert(line, L, R)$: adds the line $line (y = ax + b)$ to the set of lines, operating on interval $L, R$. Complexity: $O(\log^2(R - L))$.
+	\item $query(X)$: finds the line in the set that minimizes the value $aX + b$. Complexity: $O(\log(L))$.
 \end{itemize}
 \addtemplate{dsa/li-chao-extended.cpp}
