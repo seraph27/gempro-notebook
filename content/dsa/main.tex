@@ -38,3 +38,210 @@ Supports two types of operations:
 	\item $query(X)$: finds the line in the set that minimizes the value $aX + b$. Complexity: $O(\log(L))$.
 \end{itemize}
 \addtemplate{dsa/li-chao-extended.cpp}
+\subsection{Lazy Segment Tree}
+Extends the segment tree to support range updates. Maintains a lazy propagation array to defer updates. Supports two types of operations:
+\begin{itemize}
+	\item $update(L, R, val)$: adds value $val$ to all elements in range $[L, R]$. Complexity: $O(\log(n))$.
+	\item $query(L, R)$: finds the minimum value in range $[L, R]$. Complexity: $O(\log(n))$.
+\end{itemize}
+\textbf{Standard Problem:} Given an array of $n$ integers, process $q$ queries of two types:
+\begin{enumerate}
+	\item Add $x$ to all elements in range $[l, r]$
+	\item Find the minimum value in range $[l, r]$
+\end{enumerate}
+\textbf{Solution:} Use lazy propagation to defer range updates. When updating a range, mark the lazy value at nodes that completely cover the range. When querying, push lazy values down before accessing children.
+\addtemplate{dsa/lazy-segtree.cpp}
+\subsection{Sparse Table}
+Preprocesses an array to answer range queries in $O(1)$ time for idempotent operations (min, max, gcd). Requires $O(n \log n)$ preprocessing.
+\begin{itemize}
+	\item $query(L, R)$: answers the query over range $[L, R]$ in $O(1)$ time. Works for operations like min, max, gcd.
+\end{itemize}
+\textbf{Standard Problem:} Given an array of $n$ integers, answer $q$ queries asking for the minimum value in range $[l, r]$.
+\textbf{Solution:} Precompute minimums for all ranges of length $2^k$. For query $[l, r]$, find the largest $k$ such that $2^k \leq r-l+1$, then take the minimum of the two overlapping ranges of length $2^k$ that cover $[l, r]$.
+\addtemplate{dsa/sparse-table.cpp}
+\subsection{Min Queue}
+Maintains a queue that can efficiently return the minimum element. Useful for sliding window problems.
+\begin{itemize}
+	\item $push(val)$: adds $val$ to the queue. Complexity: amortized $O(1)$.
+	\item $pop(rem)$: removes $rem$ from the queue if it's at the front. Complexity: $O(1)$.
+	\item $min()$: returns the minimum element. Complexity: $O(1)$.
+\end{itemize}
+\textbf{Standard Problem:} Given an array of $n$ integers and an integer $k$, find the minimum in every contiguous subarray of length $k$.
+\textbf{Solution:} Maintain a deque that stores elements in increasing order. When adding a new element, remove all elements from the back that are greater than it. The front always contains the minimum.
+\addtemplate{dsa/min-queue.cpp}
+\subsection{Range Update Point Query}
+A Fenwick tree variant that supports range updates and point queries efficiently.
+\begin{itemize}
+	\item $update(L, R, val)$: adds $val$ to all elements in range $[L, R]$. Complexity: $O(\log(n))$.
+	\item $query(pos)$: returns the value at position $pos$. Complexity: $O(\log(n))$.
+\end{itemize}
+\textbf{Standard Problem:} Given an array of $n$ integers (initially all zeros), process $q$ queries:
+\begin{enumerate}
+	\item Add $x$ to all elements in range $[l, r]$
+	\item Query the value at position $i$
+\end{enumerate}
+\textbf{Solution:} Use a Fenwick tree where range updates are converted to two point updates: add $x$ at $l$ and subtract $x$ at $r+1$. A point query sums all updates affecting that position.
+\addtemplate{dsa/range-update-point-query.cpp}
+\subsection{Implicit Treap}
+A balanced binary search tree that maintains elements in array order. Supports insertion, deletion, and range operations in $O(\log n)$.
+\begin{itemize}
+	\item $split(v, k)$: splits treap into two treaps at position $k$. Complexity: $O(\log(n))$.
+	\item $merge(l, r)$: merges two treaps. Complexity: $O(\log(n))$.
+\end{itemize}
+\textbf{Standard Problem:} Given an array, support operations:
+\begin{enumerate}
+	\item Insert element $x$ at position $i$
+	\item Delete element at position $i$
+	\item Reverse range $[l, r]$
+	\item Query element at position $i$
+\end{enumerate}
+\textbf{Solution:} Use implicit treap where nodes are ordered by their position in the array (implicit key). Each node stores subtree size. Split at position $i$ to insert/delete, and use lazy reversal flags for range reversals.
+\addtemplate{dsa/implicit-treap.cpp}
+\subsection{Link-Cut Tree}
+Maintains a forest of trees and supports dynamic connectivity operations efficiently.
+\begin{itemize}
+	\item $link(x, y)$: adds an edge between $x$ and $y$. Complexity: $O(\log(n))$.
+	\item $cut(x, y)$: removes the edge between $x$ and $y$. Complexity: $O(\log(n))$.
+	\item $lca(x, y)$: finds the lowest common ancestor of $x$ and $y$. Complexity: $O(\log(n))$.
+	\item $connected(x, y)$: checks if $x$ and $y$ are in the same tree. Complexity: $O(\log(n))$.
+\end{itemize}
+\textbf{Standard Problem:} Given a tree, support operations:
+\begin{enumerate}
+	\item Add an edge between $u$ and $v$
+	\item Remove an edge between $u$ and $v$
+	\item Find the distance between $u$ and $v$
+	\item Check if $u$ and $v$ are connected
+\end{enumerate}
+\textbf{Solution:} Use splay trees to represent preferred paths. The $access$ operation makes a path from root to a node preferred. $make\_root$ reroots the tree. Link-cut trees maintain dynamic trees with $O(\log n)$ amortized time per operation.
+\addtemplate{dsa/link-cut-tree.cpp}
+\subsection{String Hashing}
+Precomputes polynomial hashes for a string to enable $O(1)$ substring comparison. Uses multiple bases to reduce collision probability.
+\begin{itemize}
+	\item $query(l, r)$: returns the hash of substring $s[l..r]$. Complexity: $O(1)$.
+\end{itemize}
+\textbf{Standard Problem:} Given a string $s$ of length $n$, answer $q$ queries asking if substrings $s[l_1..r_1]$ and $s[l_2..r_2]$ are equal.
+\textbf{Solution:} Precompute prefix hashes using polynomial rolling hash: $H(s[0..i]) = \sum_{j=0}^{i} s[j] \cdot base^{i-j} \bmod p$. To get hash of $s[l..r]$, compute $H(r) - H(l-1) \cdot base^{r-l+1}$ and normalize by multiplying by $base^{-l}$.
+\addtemplate{dsa/string-hash.cpp}
+\subsection{2D Hashing}
+Extends string hashing to 2D arrays. Precomputes hashes for rectangular subarrays to enable $O(1)$ comparison.
+\begin{itemize}
+	\item $query(x1, y1, x2, y2)$: returns the hash of subrectangle $[x1..x2][y1..y2]$. Complexity: $O(1)$.
+\end{itemize}
+\textbf{Standard Problem:} Given a 2D array $a$ of size $n \times m$, answer $q$ queries asking if two rectangular subarrays are equal.
+\textbf{Solution:} Use 2D prefix sums with polynomial hashing. For each position $(i,j)$, compute hash considering all elements from $(0,0)$ to $(i,j)$. To get hash of rectangle $[x1..x2][y1..y2]$, use inclusion-exclusion: $H(x2,y2) - H(x1-1,y2) - H(x2,y1-1) + H(x1-1,y1-1)$, then normalize by dividing by $base^{x1 \cdot m + y1}$.
+\addtemplate{dsa/2d-hash.cpp}
+\subsection{Mo's Algorithm}
+Offline algorithm to answer range queries efficiently by reordering queries. Works when queries can be answered by maintaining a data structure while expanding/contracting the current range.
+\begin{itemize}
+	\item Processes queries in optimal order. Complexity: $O((n+q)\sqrt{n})$ for $n$ array size and $q$ queries.
+\end{itemize}
+\textbf{Standard Problem:} Given an array of $n$ integers, answer $q$ queries asking for the number of distinct elements in range $[l, r]$.
+\textbf{Solution:} Divide array into blocks of size $\sqrt{n}$. Sort queries by block of left endpoint, and within same block, alternate sorting by right endpoint (Hilbert curve optimization). Maintain frequency array and distinct count. Expand/contract range one element at a time, updating counts. Each query processed in $O(\sqrt{n})$ amortized time.
+\addtemplate{dsa/mos-algorithm.cpp}
+\subsection{FFT (Butterfly)}
+Fast Fourier Transform using Cooley-Tukey algorithm with bit-reversal permutation. Computes polynomial multiplication in $O(n \log n)$.
+\begin{itemize}
+	\item $butterfly(a, inv)$: performs FFT on vector $a$ in-place. If $inv$ is true, performs inverse FFT. Complexity: $O(n \log n)$.
+\end{itemize}
+\textbf{Standard Problem:} Given two polynomials $A(x) = \sum_{i=0}^{n-1} a_i x^i$ and $B(x) = \sum_{i=0}^{m-1} b_i x^i$, compute their product $C(x) = A(x) \cdot B(x)$.
+\textbf{Solution:} Evaluate both polynomials at $n+m$ points using FFT, multiply pointwise, then interpolate back using inverse FFT. Uses primitive root $g=3$ modulo $998244353$. Bit-reversal permutation ensures in-place computation.
+\addtemplate{dsa/fft-butterfly.cpp}
+\subsection{FWHT (Fast Walsh-Hadamard Transform)}
+Computes XOR convolution of two arrays efficiently. Used for problems involving XOR operations.
+\begin{itemize}
+	\item $fwht(a, inv)$: performs Walsh-Hadamard transform on vector $a$ in-place. If $inv$ is true, performs inverse transform. Complexity: $O(n \log n)$.
+\end{itemize}
+\textbf{Standard Problem:} Given two arrays $a$ and $b$ of length $2^k$, compute array $c$ where $c[i] = \sum_{j \oplus k = i} a[j] \cdot b[k]$ (XOR convolution).
+\textbf{Solution:} Transform both arrays using FWHT, multiply pointwise, then inverse transform. The transform uses recursive structure: for each bit position, split array into pairs and combine with $(a+b, a-b)$ operations.
+\addtemplate{dsa/fwht.cpp}
+\subsection{AND/OR Convolution}
+Computes AND and OR convolutions efficiently using subset sum transforms.
+\begin{itemize}
+	\item $fwht\_and(a, inv)$: computes AND convolution transform. $c[i] = \sum_{j \& k = i} a[j] \cdot b[k]$.
+	\item $fwht\_or(a, inv)$: computes OR convolution transform. $c[i] = \sum_{j | k = i} a[j] \cdot b[k]$.
+\end{itemize}
+\textbf{Standard Problem:} Given arrays $a$ and $b$, compute AND/OR convolutions efficiently.
+\textbf{Solution:} Transform both arrays, multiply pointwise, then inverse transform. AND uses subset sum: $T[i] = \sum_{j \supseteq i} a[j]$. OR uses superset sum: $T[i] = \sum_{j \subseteq i} a[j]$.
+\addtemplate{dsa/and-or-convolution.cpp}
+\subsection{Binomial Coefficient}
+Computes $\binom{n}{k}$ efficiently using floating-point arithmetic for large values.
+\begin{itemize}
+	\item $choose(n, k)$: returns $\binom{n}{k}$. Complexity: $O(k)$.
+\end{itemize}
+\textbf{Standard Problem:} Given $n$ and $k$, compute $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.
+\textbf{Solution:} Use formula $\binom{n}{k} = \prod_{i=1}^{k} \frac{n-k+i}{i}$. Compute using floating-point to handle large numbers, then round to nearest integer. Works for values up to around $10^{18}$.
+\addtemplate{dsa/binomial-coefficient.cpp}
+\subsection{Matrix}
+Template for matrix operations including multiplication and exponentiation.
+\begin{itemize}
+	\item $operator*$: matrix multiplication. Complexity: $O(N^3)$.
+	\item $operator\textasciicircum$: matrix exponentiation. Complexity: $O(N^3 \log k)$.
+\end{itemize}
+\textbf{Standard Problem:} Given an $N \times N$ matrix $A$ and integer $k$, compute $A^k$.
+\textbf{Solution:} Use binary exponentiation: if $k$ is even, compute $(A^{k/2})^2$; if odd, compute $A \cdot A^{k-1}$. Matrix multiplication uses standard $O(N^3)$ algorithm. Useful for linear recurrences and graph path counting.
+\addtemplate{dsa/matrix.cpp}
+\subsection{Persistent Segment Tree}
+Maintains multiple versions of a segment tree, allowing queries on historical states. Each update creates a new version without modifying previous ones.
+\begin{itemize}
+	\item $set(i, value, root\_id)$: creates new version with updated value at position $i$. Complexity: $O(\log n)$.
+	\item $query(l, r, root\_id)$: queries range $[l, r]$ in version $root\_id$. Complexity: $O(\log n)$.
+	\item $new\_version(root\_id)$: creates checkpoint of current version.
+\end{itemize}
+\textbf{Standard Problem:} Given an array, support queries asking for $k$-th smallest element in range $[l, r]$ (persistent segment tree for range queries).
+\textbf{Solution:} Build segment tree for each value in sorted array. For query $[l, r, k]$, use binary search on versions: if count in left subtree $\geq k$, go left; otherwise go right with $k$ reduced by left count. Each version stores count of elements $\leq$ current value in range.
+\addtemplate{dsa/persistent-segtree.cpp}
+\subsection{Rollback DSU}
+Disjoint Set Union with ability to undo operations. Maintains history stack to rollback merges.
+\begin{itemize}
+	\item $merge(x, y)$: merges sets containing $x$ and $y$. Complexity: $O(\log n)$ amortized.
+	\item $rollback()$: undoes last merge operation. Complexity: $O(1)$.
+	\item $checkpoint()$: returns current checkpoint index.
+	\item $rollback\_to(checkpoint\_size)$: rolls back to specific checkpoint.
+\end{itemize}
+\textbf{Standard Problem:} Given a graph with edges added and removed over time, answer connectivity queries. Or solve offline queries by processing in reverse order.
+\textbf{Solution:} Maintain stack of merge operations. When rolling back, restore parent and size arrays from stack. Useful for offline algorithms: process queries in reverse, rollback when needed. Complexity: $O(m \log n)$ for $m$ operations.
+\addtemplate{dsa/rollback-dsu.cpp}
+\subsection{Ordered Set (PBDS)}
+Policy-based data structure that maintains sorted order and supports order statistics operations efficiently.
+\begin{itemize}
+	\item $insert(x)$: adds element $x$. Complexity: $O(\log n)$.
+	\item $erase(x)$: removes element $x$. Complexity: $O(\log n)$.
+	\item $order\_of\_key(x)$: returns number of elements $< x$. Complexity: $O(\log n)$.
+	\item $find\_by\_order(k)$: returns $k$-th smallest element (0-indexed). Complexity: $O(\log n)$.
+\end{itemize}
+\textbf{Standard Problem:} Josephus problem - $n$ people in circle, eliminate every $k$-th person, find last remaining.
+\textbf{Solution:} Use ordered set to maintain circle. Start at position 0, repeatedly: compute next position $(pos + k - 1) \bmod size$, remove element at that position using $find\_by\_order$, update position. Last remaining element is answer. Complexity: $O(n \log n)$.
+\addtemplate{dsa/ordered-set.cpp}
+\subsection{Trie}
+Prefix tree for efficient string storage and prefix queries. Supports insertion, search, and prefix counting. Complexity: $O(|s|)$ per operation.
+\begin{itemize}
+	\item $insert(s)$: adds string $s$ to trie.
+	\item $search(s)$: checks if string $s$ exists.
+	\item $starts\_with(s)$: checks if any string has prefix $s$.
+	\item $count\_prefix(s)$: counts strings with prefix $s$.
+\end{itemize}
+\textbf{Standard Problem:} Given $n$ strings, support queries: check if string exists, find all strings with given prefix, count strings with prefix.
+\textbf{Solution:} Each node has 26 children (for lowercase letters). Traverse trie following characters of string. For prefix counting, maintain count at each node of strings passing through. Useful for autocomplete, dictionary problems, prefix matching.
+\addtemplate{dsa/trie.cpp}
+\subsection{XOR Basis}
+Maintains basis for XOR space. Can represent any number as XOR of basis elements. Useful for maximum XOR, linear independence. Complexity: $O(BITS)$ per insertion.
+\begin{itemize}
+	\item $insert(x)$: adds $x$ to basis if linearly independent.
+	\item $can\_form(x)$: checks if $x$ can be formed as XOR of basis elements.
+	\item $max\_xor()$: returns maximum XOR value formable from basis.
+	\item $min\_xor(x)$: returns minimum XOR with $x$ using basis.
+\end{itemize}
+\textbf{Standard Problem:} Given array, find maximum XOR of any subset, or check if number can be formed as XOR of subset.
+\textbf{Solution:} Maintain basis in row-echelon form. When inserting $x$, reduce with existing basis elements. If $x$ becomes 0, it's linearly dependent. Maximum XOR: greedily take basis elements that increase result. Basis size = dimension of XOR space.
+\addtemplate{dsa/xor-basis.cpp}
+\subsection{XOR Trie}
+Binary trie optimized for XOR operations. Efficiently finds maximum/minimum XOR with given value. Complexity: $O(BITS)$ per operation.
+\begin{itemize}
+	\item $insert(x)$: adds $x$ to trie.
+	\item $erase(x)$: removes $x$ from trie (with count).
+	\item $max\_xor(x)$: returns maximum XOR value with $x$.
+	\item $min\_xor(x)$: returns minimum XOR value with $x$.
+\end{itemize}
+\textbf{Standard Problem:} Given array, for each query find maximum XOR with given value, or find two numbers with maximum XOR.
+\textbf{Solution:} Store numbers as binary strings in trie. For maximum XOR with $x$, traverse trie choosing opposite bit when available. For minimum XOR, choose same bit when available. Maintain count at each node for deletion. Useful for XOR maximization problems.
+\addtemplate{dsa/xor-trie.cpp}

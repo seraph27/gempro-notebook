@@ -1,3 +1,104 @@
 \subsection{Eulerian Walk}
 Finds an eulerian walk in a graph, if it exists. Takes an adjacency list of the form $[x, e]$, where $x$ is the neighbor and $e$ is the edge id. For undirected graphs, use the same id for edges going both ways. Complexity: $O(V + E)$.
 \addtemplate{graph/eulerian-walk.cpp}
+\subsection{Dinic's Algorithm}
+Finds maximum flow in a network using BFS for level graph construction and DFS for blocking flow. Complexity: $O(V^2 E)$.
+\begin{itemize}
+	\item $add(u, v, cap)$: adds edge from $u$ to $v$ with capacity $cap$.
+	\item $flow(s, t)$: returns maximum flow from $s$ to $t$.
+	\item $cut(s)$: returns vertices reachable from $s$ in residual graph (min cut).
+\end{itemize}
+\textbf{Standard Problem:} Given a directed graph with capacities on edges, find the maximum flow from source $s$ to sink $t$.
+\textbf{Solution:} Build level graph using BFS, then find blocking flows using DFS. Repeat until no augmenting path exists. The algorithm terminates when BFS cannot reach $t$, meaning no augmenting path exists.
+\addtemplate{graph/dinic.cpp}
+\subsection{Dinic's Algorithm with Scaling}
+Optimized version of Dinic's algorithm using capacity scaling. Complexity: $O(VE \log U)$ where $U$ is maximum capacity.
+\begin{itemize}
+	\item $add(u, v, cap)$: adds edge from $u$ to $v$ with capacity $cap$.
+	\item $flow(s, t)$: returns maximum flow from $s$ to $t$.
+\end{itemize}
+\textbf{Standard Problem:} Given a directed graph with large capacities, find maximum flow efficiently.
+\textbf{Solution:} Process edges in phases by capacity threshold. Start with threshold $2^{30}$, halve each phase. Only consider edges with residual capacity $\geq$ threshold. Reduces number of BFS calls significantly.
+\addtemplate{graph/dinic-scaling.cpp}
+\subsection{Bipartite Matching (Kuhn's Algorithm)}
+Finds maximum matching in bipartite graph using DFS-based augmenting path search. Complexity: $O(VE)$.
+\begin{itemize}
+	\item $add\_edge(x, y)$: adds edge from left vertex $x$ to right vertex $y$ (1-indexed).
+	\item $get\_matching()$: returns vector of matched pairs.
+\end{itemize}
+\textbf{Standard Problem:} Given a bipartite graph with left partition of size $n$ and right partition of size $m$, find maximum matching.
+\textbf{Solution:} For each unmatched left vertex, try to find augmenting path using DFS. If path found, flip edges along path to increase matching size. Repeat until no augmenting path exists.
+\addtemplate{graph/bipartite-matching.cpp}
+\subsection{Min Cost Max Flow}
+Finds maximum flow with minimum cost using successive shortest paths (Bellman-Ford). Complexity: $O(V^2 E \cdot \text{flow})$.
+\begin{itemize}
+	\item $add\_edge(u, v, Cap, Cost)$: adds edge with capacity and cost.
+	\item $max\_flow(s, t)$: returns $\{\text{flow}, \text{cost}\}$.
+\end{itemize}
+\textbf{Standard Problem:} Given a network with capacities and costs on edges, find maximum flow with minimum total cost.
+\textbf{Solution:} Use Bellman-Ford to find shortest path in residual graph considering costs. Augment flow along this path. Repeat until no augmenting path exists. Negative costs handled by considering reverse edges.
+\addtemplate{graph/mincost-maxflow.cpp}
+\subsection{Bridges}
+Finds all bridges (edges whose removal increases number of connected components) in an undirected graph. Complexity: $O(V + E)$.
+\begin{itemize}
+	\item $bridges(n, adj)$: returns list of bridge edges given graph with $n$ vertices.
+\end{itemize}
+\textbf{Standard Problem:} Given an undirected graph, find all edges that are bridges.
+\textbf{Solution:} Use DFS to compute $tin$ (entry time) and $low$ (lowest reachable ancestor). An edge $(u,v)$ is a bridge if $low[v] > tin[u]$, meaning $v$ cannot reach any ancestor of $u$ without going through the edge.
+\addtemplate{graph/bridges.cpp}
+\subsection{ST-Bridges}
+Finds bridges that disconnect $s$ from $t$ in an undirected graph. Complexity: $O(V + E)$.
+\begin{itemize}
+	\item $st\_bridges(n, adj, s, t)$: returns bridges that disconnect $s$ from $t$.
+\end{itemize}
+\textbf{Standard Problem:} Given an undirected graph and vertices $s$, $t$, find all edges whose removal disconnects $s$ from $t$.
+\textbf{Solution:} Similar to bridges algorithm, but track which vertices can reach $t$. An edge $(u,v)$ is an ST-bridge if it's a bridge and $v$ can reach $t$.
+\addtemplate{graph/st-bridges.cpp}
+\subsection{Dijkstra's Algorithm}
+Finds shortest paths from source to all vertices in weighted graph with non-negative edges. Complexity: $O((V + E) \log V)$.
+\begin{itemize}
+	\item $dijkstra(s, adj)$: returns distance array from source $s$.
+\end{itemize}
+\textbf{Standard Problem:} Given a weighted directed graph with non-negative edge weights, find shortest distances from source $s$ to all vertices.
+\textbf{Solution:} Maintain priority queue of vertices ordered by distance. Extract minimum, relax all outgoing edges. Once a vertex is processed, its distance is final. Uses greedy approach: always process closest unprocessed vertex.
+\addtemplate{graph/dijkstra.cpp}
+\subsection{Tarjan's SCC}
+Finds all strongly connected components in a directed graph using DFS and low-link values. Complexity: $O(V + E)$.
+\begin{itemize}
+	\item $tarjan\_scc(n, adj)$: returns list of SCCs, each SCC is a vector of vertices.
+\end{itemize}
+\textbf{Standard Problem:} Given a directed graph, find all strongly connected components (maximal sets of vertices where every vertex is reachable from every other).
+\textbf{Solution:} Use DFS to compute entry time $tin$ and low-link value $low$. When $low[v] = tin[v]$, $v$ is root of SCC. All vertices on stack from $v$ to current form one SCC. Low-link tracks earliest reachable ancestor.
+\addtemplate{graph/tarjan-scc.cpp}
+\subsection{Topological Sort (Kahn's Algorithm)}
+Orders vertices of DAG such that for every edge $(u,v)$, $u$ appears before $v$. Complexity: $O(V + E)$.
+\begin{itemize}
+	\item $topological\_sort(n, adj)$: returns topological ordering, or partial ordering if cycle exists.
+\end{itemize}
+\textbf{Standard Problem:} Given a DAG, find a linear ordering of vertices respecting edge directions.
+\textbf{Solution:} Maintain in-degree count for each vertex. Repeatedly remove vertices with in-degree 0, updating in-degrees of neighbors. If all vertices processed, ordering is valid; otherwise cycle exists. Uses BFS-like approach with queue.
+\addtemplate{graph/topological-sort.cpp}
+\subsection{Floyd-Warshall}
+Finds shortest paths between all pairs of vertices. Handles negative edges but not negative cycles. Complexity: $O(V^3)$.
+\begin{itemize}
+	\item $floyd\_warshall(dist)$: modifies distance matrix in-place. $dist[i][j]$ = shortest distance from $i$ to $j$.
+\end{itemize}
+\textbf{Standard Problem:} Given a graph, find shortest distance between every pair of vertices.
+\textbf{Solution:} For each intermediate vertex $k$, try to improve path from $i$ to $j$ by going through $k$: $dist[i][j] = \min(dist[i][j], dist[i][k] + dist[k][j])$. After processing all $k$, $dist[i][j]$ contains shortest path. Can detect negative cycles: if $dist[i][i] < 0$ after algorithm.
+\addtemplate{graph/floyd-warshall.cpp}
+\subsection{Bellman-Ford}
+Finds shortest paths from source, handles negative edges and detects negative cycles. Complexity: $O(VE)$.
+\begin{itemize}
+	\item $bellman\_ford(n, s, edges)$: returns $\{distances, has\_negative\_cycle\}$.
+\end{itemize}
+\textbf{Standard Problem:} Given a graph with possibly negative edge weights, find shortest distances from source $s$, or detect negative cycle.
+\textbf{Solution:} Relax all edges $V-1$ times. If any edge can still be relaxed after $V-1$ iterations, negative cycle exists. Each relaxation updates: $dist[v] = \min(dist[v], dist[u] + w(u,v))$. Works because shortest path has at most $V-1$ edges.
+\addtemplate{graph/bellman-ford.cpp}
+\subsection{Articulation Points}
+Finds all cut vertices (vertices whose removal increases number of connected components). Complexity: $O(V + E)$.
+\begin{itemize}
+	\item $articulation\_points(n, adj)$: returns list of articulation points.
+\end{itemize}
+\textbf{Standard Problem:} Given an undirected graph, find all vertices whose removal disconnects the graph.
+\textbf{Solution:} Use DFS to compute $tin$ and $low$. Vertex $v$ is articulation point if: (1) $v$ is root and has $\geq 2$ children, or (2) $v$ is not root and has child $u$ with $low[u] \geq tin[v]$ (meaning $u$ cannot reach ancestor of $v$ without going through $v$).
+\addtemplate{graph/articulation-points.cpp}

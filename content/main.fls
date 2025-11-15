@@ -1,0 +1,12 @@
+PWD /home/seraph/Documents/gempro-notebook/content
+INPUT /usr/share/texmf-dist/web2c/texmf.cnf
+INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
+INPUT /home/seraph/Documents/gempro-notebook/content/main.tex
+OUTPUT main.log
+INPUT /usr/share/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/share/texmf-dist/tex/latex/base/article.cls
+INPUT /usr/share/texmf-dist/tex/latex/base/size11.clo
+INPUT /usr/share/texmf-dist/tex/latex/base/size11.clo
+INPUT /usr/share/texmf-dist/tex/latex/base/size11.clo
+INPUT /usr/share/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmr10.tfm

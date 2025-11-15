@@ -1,0 +1,37 @@
+\subsection{LCA (Lowest Common Ancestor)}
+Finds lowest common ancestor of two nodes in a tree using binary lifting. Complexity: $O(n \log n)$ preprocessing, $O(\log n)$ per query.
+\begin{itemize}
+	\item $lca(x, y)$: returns LCA of nodes $x$ and $y$.
+	\item $dist(x, y)$: returns distance between nodes $x$ and $y$.
+\end{itemize}
+\textbf{Standard Problem:} Given a tree, answer queries asking for the LCA of two nodes.
+\textbf{Solution:} Precompute $up[v][i]$ = $2^i$-th ancestor of $v$. To find LCA, lift deeper node to same depth, then lift both simultaneously until their parents differ. Distance computed as $depth[x] + depth[y] - 2 \cdot depth[lca(x,y)]$.
+\addtemplate{tree/lca.cpp}
+\subsection{Rerooting DP}
+Solves tree DP problems where we need answer for each node as root. Complexity: $O(n)$.
+\begin{itemize}
+	\item Template requires defining: $E()$ (identity), $merge(x, y)$ (combine), $add\_vertex(x, v)$ (add node).
+	\item $solve()$: returns answers for each node as root.
+\end{itemize}
+\textbf{Standard Problem:} Given a tree, for each node compute some property when that node is the root.
+\textbf{Solution:} First do bottom-up DP from arbitrary root. Then do top-down DP computing reverse DP values. For each node, combine prefix and suffix of children's DP values with parent's reverse DP value.
+\addtemplate{tree/reroot-dp.cpp}
+\subsection{Heavy-Light Decomposition}
+Decomposes tree into chains to support path queries efficiently. Each path query broken into $O(\log n)$ chain queries. Complexity: $O(n)$ preprocessing, $O(\log^2 n)$ per path query.
+\begin{itemize}
+	\item $query\_path(u, v, op)$: queries path from $u$ to $v$ using operation $op$.
+	\item Heavy edges form chains, light edges connect chains.
+\end{itemize}
+\textbf{Standard Problem:} Given a tree with values on edges/vertices, support queries: find max/sum on path from $u$ to $v$, or update value at vertex.
+\textbf{Solution:} Decompose tree into heavy paths. For path query $u$ to $v$, repeatedly: if $u$ and $v$ in different chains, query top of deeper chain and move up. Use segment tree/Fenwick on each chain. At most $O(\log n)$ chain queries needed.
+\addtemplate{tree/hld.cpp}
+\subsection{Centroid Decomposition}
+Decomposes tree into centroid tree for efficient path queries and tree problems. Complexity: $O(n \log n)$.
+\begin{itemize}
+	\item $build()$: builds centroid tree decomposition.
+	\item Centroid: vertex whose removal splits tree into components of size $\leq n/2$.
+\end{itemize}
+\textbf{Standard Problem:} Count paths in tree satisfying some property, or answer queries about paths through specific vertices.
+\textbf{Solution:} Find centroid, solve problem for paths through centroid, recursively solve for subtrees. Centroid tree has depth $O(\log n)$. Useful for problems like: count paths with sum $= k$, or find closest vertex of certain type.
+\addtemplate{tree/centroid-decomposition.cpp}
+

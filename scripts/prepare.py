@@ -41,12 +41,20 @@ def visit(node):
                 if 'isImplicit' in inner and inner['isImplicit']:
                     continue
                 method_range = inner.get('range', {})
-                method_list.append((method_range['begin']['offset'], method_range['end']['offset'] + 1))
+                if method_range and 'begin' in method_range and 'end' in method_range:
+                    begin = method_range['begin'].get('offset')
+                    end = method_range['end'].get('offset')
+                    if begin is not None and end is not None:
+                        method_list.append((begin, end + 1))
                 method_name = inner.get('name')
     elif node['kind'] == 'CXXMethodDecl' or node['kind'] == 'FunctionDecl':
         if 'isImplicit' not in node or not node['isImplicit']:
             method_range = node.get('range', {})
-            method_list.append((method_range['begin']['offset'], method_range['end']['offset'] + 1))
+            if method_range and 'begin' in method_range and 'end' in method_range:
+                begin = method_range['begin'].get('offset')
+                end = method_range['end'].get('offset')
+                if begin is not None and end is not None:
+                    method_list.append((begin, end + 1))
     return method_list
 
 def add_method_hashes(full_template, template):

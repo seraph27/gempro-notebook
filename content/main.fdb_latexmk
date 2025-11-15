@@ -1,0 +1,17 @@
+# Fdb version 4
+["pdflatex"] 1763166717.51322 "/home/seraph/Documents/gempro-notebook/content/main.tex" "main.pdf" "main" 1763166717.61017 2
+  "/home/seraph/Documents/gempro-notebook/content/main.tex" 1763166717.13221 741 abe09339aa142de9dfb2d628174eaf17 ""
+  "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1755987285 3524 cb3e574dea2d1052e39280babc910dc8 ""
+  "/usr/share/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1755987285 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
+  "/usr/share/texmf-dist/tex/latex/base/article.cls" 1755987285 20144 63d8bacaf52e5abf4db3bc322373e1d4 ""
+  "/usr/share/texmf-dist/tex/latex/base/size11.clo" 1755987285 8464 e73911cdcc738e82d6adccd28e654bb1 ""
+  "/usr/share/texmf-dist/web2c/texmf.cnf" 1755987285 42087 b0f9697c952c8f5a8eede4134282cb0d ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1763156732 2009827 95b36a1740f66803b850058350165eb9 ""
+  "content/preamble.tex" 0 -1 0 ""
+  "main.aux" 1763166717.51264 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "main.tex" 1763166717.13221 741 abe09339aa142de9dfb2d628174eaf17 ""
+  (generated)
+  "main.aux"
+  "main.log"
+  "main.pdf"
+  (rewritten before read)

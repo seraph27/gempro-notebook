@@ -1,4 +1,6 @@
-using i64 = long long;
+
+
+using i64 = int;
 
 // begin template //
 i64 egcd(i64 a, i64 b, i64 &x, i64 &y) {

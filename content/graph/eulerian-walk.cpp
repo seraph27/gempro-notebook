@@ -1,11 +1,15 @@
-#include <vector>
-#include <utility>
 
+#include <deque>
+#include <utility>
+#include <vector>
+
+#define int long long
 using namespace std;
 
 using PII = pair<int, int>;
 
 // begin template //
+using namespace std;
 pair<vector<int>, vector<int>> eulerWalk(int n, int m, vector<vector<PII>> &adj, int s = 0) {
 	vector<int> path, walk, d(n), vis(m), ne(n);
 	vector<PII> st = {{s, -1}};

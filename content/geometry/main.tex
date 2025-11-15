@@ -1,2 +1,52 @@
 \subsection{Base}
 \addtemplate{geometry/prelude.cpp}
+\subsection{Convex Hull}
+Finds convex hull of set of points using Andrew's monotone chain algorithm. Complexity: $O(n \log n)$.
+\begin{itemize}
+	\item $convex\_hull(points)$: returns vertices of convex hull in counter-clockwise order.
+\end{itemize}
+\textbf{Standard Problem:} Given $n$ points, find the convex hull (smallest convex polygon containing all points).
+\textbf{Solution:} Sort points by $x$ (then $y$). Build lower hull by adding points and removing points that create clockwise turns. Build upper hull similarly in reverse. Combine hulls. Uses cross product to detect turns: $cross(AB, AC) > 0$ means counter-clockwise turn.
+\addtemplate{geometry/convex-hull.cpp}
+\subsection{Line Intersection}
+Determines if two line segments intersect and finds intersection point. Complexity: $O(1)$.
+\begin{itemize}
+	\item $segments\_intersect(a, b, c, d)$: checks if segments $ab$ and $cd$ intersect.
+	\item $line\_intersection(a, b, c, d)$: returns intersection point of lines through $ab$ and $cd$.
+\end{itemize}
+\textbf{Standard Problem:} Given two line segments, determine if they intersect, or find intersection point of two lines.
+\textbf{Solution:} Use orientation test: segments intersect if endpoints are on opposite sides of each other's line. For collinear case, check if bounding boxes overlap. For line intersection, solve parametric equations or use cross product formula.
+\addtemplate{geometry/line-intersection.cpp}
+\subsection{Point in Polygon}
+Determines if a point lies inside, on boundary, or outside a polygon using ray casting. Complexity: $O(n)$.
+\begin{itemize}
+	\item $point\_in\_polygon(p, polygon)$: returns 0 (outside), 1 (on boundary), or 2 (inside).
+\end{itemize}
+\textbf{Standard Problem:} Given a polygon and a point, determine if point is inside polygon.
+\textbf{Solution:} Cast horizontal ray from point to right. Count intersections with polygon edges. Odd count means inside, even means outside. Handle edge cases: point on edge, horizontal edges. For each edge, check if ray crosses it by checking if endpoints are on opposite sides of ray.
+\addtemplate{geometry/point-in-polygon.cpp}
+\subsection{Polygon Area}
+Computes area of polygon using shoelace formula. Complexity: $O(n)$.
+\begin{itemize}
+	\item $polygon\_area(polygon)$: returns area (always positive).
+	\item $signed\_polygon\_area(polygon)$: returns signed area (positive for CCW, negative for CW).
+\end{itemize}
+\textbf{Standard Problem:} Given vertices of polygon, compute its area.
+\textbf{Solution:} Shoelace formula: $A = \frac{1}{2}|\sum_{i=0}^{n-1} (x_i y_{i+1} - x_{i+1} y_i)|$ where indices wrap around. Signed area indicates orientation: positive for counter-clockwise, negative for clockwise. Works for any simple polygon.
+\addtemplate{geometry/polygon-area.cpp}
+\subsection{Closest Pair}
+Finds the closest pair of points using divide and conquer. Complexity: $O(n \log^2 n)$.
+\begin{itemize}
+	\item $closest\_pair(points)$: returns pair of closest points.
+\end{itemize}
+\textbf{Standard Problem:} Given $n$ points, find the pair with minimum distance.
+\textbf{Solution:} Divide points by $x$-coordinate. Recursively solve left and right halves. For points near dividing line, check points in strip of width $d$ (minimum of two halves). Sort strip by $y$, check only points within $d$ vertically. Each point checked against at most 6 neighbors, giving $O(n \log^2 n)$ total.
+\addtemplate{geometry/closest-pair.cpp}
+\subsection{Rotating Calipers}
+Finds diameter (farthest pair) of convex polygon efficiently. Complexity: $O(n)$.
+\begin{itemize}
+	\item $rotating\_calipers(hull)$: returns squared distance of farthest pair.
+\end{itemize}
+\textbf{Standard Problem:} Given convex polygon, find the farthest pair of vertices (diameter).
+\textbf{Solution:} Use two parallel lines (calipers) rotating around polygon. Start with lines parallel to an edge. Rotate until one caliper aligns with next edge. Track maximum distance between caliper contact points. Each vertex visited at most twice, giving $O(n)$ complexity. Useful for finding width, minimum bounding rectangle.
+\addtemplate{geometry/rotating-calipers.cpp}

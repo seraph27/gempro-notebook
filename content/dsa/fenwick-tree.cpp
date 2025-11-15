@@ -1,8 +1,11 @@
+
 #include <vector>
 
+#define int long long
 using namespace std;
 
 // begin template //
+using namespace std;
 struct Fenwick {
 	vector<int> t;
 	int n;

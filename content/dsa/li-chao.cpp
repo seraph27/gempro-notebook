@@ -1,11 +1,15 @@
-#include <vector>
-#include <climits>
 
+#include <algorithm>
+#include <climits>
+#include <vector>
+
+#define int long long
 using namespace std;
 
-using i64 = long long;
+using i64 = int;
 
 // begin template //
+using namespace std;
 struct Line {
 	i64 a, b;
 	i64 operator()(int x) { return a * x + b; }

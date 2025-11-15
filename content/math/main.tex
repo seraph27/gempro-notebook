@@ -2,4 +2,132 @@
 Finds integers $x$, $y$ and $g$ such that $ax + by = g$ and $g = gcd(a, b)$. Useful for computing modular inverses.
 Complexity: $O(\log(\min(a, b)))$.
 \addtemplate{math/egcd.cpp}
-\subsection{CRT}
+\subsection{Linear Sieve}
+Efficiently finds all primes and smallest prime factors up to $N$ in $O(N)$ time.
+\begin{itemize}
+	\item $prime(x)$: checks if $x$ is prime.
+	\item $facs(x)$: returns list of prime factors (with repetition).
+	\item $facs2(x)$: returns prime factorization as pairs $\{(p_1, e_1), (p_2, e_2), \ldots\}$ where $x = p_1^{e_1} \cdot p_2^{e_2} \cdots$.
+	\item $divs(x)$: returns all divisors of $x$.
+\end{itemize}
+\textbf{Standard Problem:} Given $N$, find all primes $\leq N$ and factorize numbers efficiently.
+\textbf{Solution:} For each number, mark smallest prime factor. When processing $i$, only mark $i \cdot p$ for primes $p \leq spf[i]$. This ensures each composite is marked exactly once. $facs2$ groups factors by prime and counts exponents, useful when you need the canonical form $x = \prod p_i^{e_i}$.
+\addtemplate{math/linear-sieve.cpp}
+\subsection{Combinatorics}
+Precomputed factorials and inverse factorials for fast binomial coefficient computation modulo $M$.
+\begin{itemize}
+	\item $finit(n)$: precomputes factorials up to $n$.
+	\item $choose(n, k)$: returns $\binom{n}{k} \bmod M$ using precomputed factorials.
+\end{itemize}
+\textbf{Standard Problem:} Compute binomial coefficients $\binom{n}{k}$ modulo $M$ efficiently for many queries.
+\textbf{Solution:} Precompute $n! \bmod M$ and $(n!)^{-1} \bmod M$ for all $n \leq N$. Then $\binom{n}{k} = \frac{n!}{k!(n-k)!} = n! \cdot (k!)^{-1} \cdot ((n-k)!)^{-1}$. Complexity: $O(N)$ preprocessing, $O(1)$ per query.
+\addtemplate{math/combinatorics.cpp}
+\subsection{Euler Totient Sieve}
+Precomputes Euler totient function $\phi(n)$ for all $n \leq N$ in $O(N)$ time.
+\begin{itemize}
+	\item $init\_phi()$: precomputes $\phi$ array.
+	\item $\phi[i]$: Euler totient of $i$.
+\end{itemize}
+\textbf{Standard Problem:} Given $N$, compute $\phi(n)$ for all $n \leq N$.
+\textbf{Solution:} Use linear sieve. For prime $p$, $\phi(p) = p-1$. For composite $i \cdot p$: if $p \mid i$, then $\phi(i \cdot p) = \phi(i) \cdot p$; otherwise $\phi(i \cdot p) = \phi(i) \cdot (p-1)$.
+\addtemplate{math/phi-sieve.cpp}
+\subsection{Fraction}
+Arithmetic with exact fractions, automatically simplified. Useful when precision is critical.
+\begin{itemize}
+	\item All standard arithmetic operators supported.
+	\item Automatically normalizes to reduced form.
+\end{itemize}
+\textbf{Standard Problem:} Perform exact arithmetic with fractions without floating-point errors.
+\textbf{Solution:} Store numerator and denominator separately. After each operation, compute GCD and divide both by it. Use LCM for addition/subtraction of fractions with different denominators.
+\addtemplate{math/fraction.cpp}
+\subsection{Binary Power}
+Fast exponentiation using binary representation of exponent. Complexity: $O(\log b)$.
+\begin{itemize}
+	\item $binpow(a, b)$: computes $a^b$.
+\end{itemize}
+\textbf{Standard Problem:} Compute $a^b$ efficiently for large $b$.
+\textbf{Solution:} Express $b$ in binary. For each bit set, multiply result by corresponding power of $a$. Example: $a^{13} = a^8 \cdot a^4 \cdot a^1$ since $13 = 1101_2$.
+\addtemplate{math/binary-power.cpp}
+\subsection{Minimum Linear Residue}
+Finds minimum value of $ax + b \pmod{m}$ for $x \in [0, n-1]$ efficiently. Complexity: $O(\log m)$.
+\begin{itemize}
+	\item $min\_rem(n, m, a, b)$: returns minimum value.
+	\item $min\_rem\_pos(n, m, a, b)$: returns $\{\text{value}, x\}$.
+\end{itemize}
+\textbf{Standard Problem:} Given $n, m, a, b$, find $\min_{x \in [0,n-1]} (ax + b) \bmod m$.
+\textbf{Solution:} Use extended Euclidean algorithm and reduction techniques. Handle GCD factors separately, then reduce problem size recursively until base case.
+\addtemplate{math/min-linear-residue.cpp}
+\subsection{Implicit Prime Factorization Basis}
+Maintains a basis of coprime primes that can factorize given numbers. Useful for problems with implicit prime constraints.
+\begin{itemize}
+	\item $add(val)$: adds number to basis, maintaining coprimality.
+	\item $factorization(ele)$: returns exponents for each prime in basis.
+	\item $dim()$: returns number of primes in basis.
+\end{itemize}
+\textbf{Standard Problem:} Given numbers, maintain a basis of primes that can factorize all of them, ensuring basis elements are pairwise coprime.
+\textbf{Solution:} When adding number, reduce it with existing basis elements. If GCD $> 1$ with basis element, split both into coprime factors. Maintain invariant that all basis elements are pairwise coprime.
+\addtemplate{math/implicit-prime-factorization.cpp}
+\subsection{Catalan Numbers}
+Precomputes Catalan numbers $C_n = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$. Counts valid parentheses, binary trees, paths, etc.
+\begin{itemize}
+	\item $init\_catalan(n)$: precomputes first $n$ Catalan numbers.
+	\item $catalan\_number(n)$: returns $C_n$.
+\end{itemize}
+\textbf{Standard Problem:} Count number of valid parentheses sequences with $n$ pairs, or number of binary trees with $n$ nodes.
+\textbf{Solution:} Use recurrence $C_n = \frac{4n-2}{n+1} C_{n-1}$ with $C_0 = 1$. Catalan numbers count: valid parentheses, binary trees, triangulations of convex polygon, paths that don't cross diagonal.
+\addtemplate{math/catalan.cpp}
+\subsection{Stirling Numbers}
+Stirling numbers count permutations and partitions. First kind: permutations with $k$ cycles. Second kind: partitions into $k$ non-empty sets.
+\begin{itemize}
+	\item $stirling1(n)$: returns $s(n,k)$ for all $k$ - permutations of $n$ elements with $k$ cycles.
+	\item $stirling2(n)$: returns $S(n,k)$ for all $k$ - ways to partition $n$ elements into $k$ sets.
+\end{itemize}
+\textbf{Standard Problem:} Count permutations with exactly $k$ cycles, or ways to partition $n$ elements into $k$ non-empty subsets.
+\textbf{Solution:} First kind: $s(n,k) = s(n-1,k-1) + (n-1) \cdot s(n-1,k)$ (new cycle or insert into existing). Second kind: $S(n,k) = S(n-1,k-1) + k \cdot S(n-1,k)$ (new set or add to existing).
+\addtemplate{math/stirling.cpp}
+\subsection{Lucas Theorem}
+Computes binomial coefficients $\binom{n}{k} \bmod p$ for large $n, k$ when $p$ is prime.
+\begin{itemize}
+	\item $lucas(n, k, p)$: returns $\binom{n}{k} \bmod p$ using Lucas theorem.
+\end{itemize}
+\textbf{Standard Problem:} Compute $\binom{n}{k} \bmod p$ where $n, k$ are very large but $p$ is small prime.
+\textbf{Solution:} Write $n$ and $k$ in base $p$: $n = n_0 + n_1 p + n_2 p^2 + \cdots$, $k = k_0 + k_1 p + k_2 p^2 + \cdots$. Then $\binom{n}{k} \equiv \prod_i \binom{n_i}{k_i} \pmod{p}$. Precompute small binomials, then multiply digit-wise.
+\addtemplate{math/lucas.cpp}
+\subsection{Chinese Remainder Theorem}
+Solves system of congruences $x \equiv a_i \pmod{m_i}$ for all $i$. Returns solution modulo $\text{lcm}(m_i)$.
+\begin{itemize}
+	\item $crt(a, m)$: returns $\{x, M\}$ where $x$ is solution modulo $M$, or $\{-1, -1\}$ if no solution.
+\end{itemize}
+\textbf{Standard Problem:} Find $x$ such that $x \equiv a_1 \pmod{m_1}$, $x \equiv a_2 \pmod{m_2}$, $\ldots$, $x \equiv a_n \pmod{m_n}$.
+\textbf{Solution:} Merge congruences pairwise. For $x \equiv a \pmod{m}$ and $x \equiv b \pmod{n}$, use extended Euclidean algorithm to find $k$ such that $x = a + km$ satisfies second congruence. Solution exists iff $a \equiv b \pmod{\gcd(m,n)}$.
+\addtemplate{math/crt.cpp}
+\subsection{Bernoulli Numbers}
+Bernoulli numbers $B_n$ used in closed formula for sum of powers: $1^k + 2^k + \cdots + n^k$.
+\begin{itemize}
+	\item $bernoulli(n)$: returns first $n+1$ Bernoulli numbers.
+	\item $sum\_of\_powers(n, k, B)$: computes $1^k + 2^k + \cdots + n^k$ using Bernoulli numbers.
+\end{itemize}
+\textbf{Standard Problem:} Compute $S_k(n) = \sum_{i=1}^n i^k$ for large $n$ and given $k$.
+\textbf{Solution:} Use Faulhaber's formula: $S_k(n) = \frac{1}{k+1} \sum_{j=0}^k \binom{k+1}{j} B_j (n+1)^{k+1-j}$. Bernoulli numbers satisfy recurrence involving binomial coefficients. Useful when $n$ is large but $k$ is small.
+\addtemplate{math/bernoulli.cpp}
+\subsection{Principle of Inclusion-Exclusion (PIE)}
+Counts elements in union of sets using alternating sum formula. General PIE counts elements in exactly $k$ sets.
+\begin{itemize}
+	\item $pie\_union(sizes)$: counts elements in union of sets.
+	\item $pie\_exactly\_k(at\_least, k)$: counts elements in exactly $k$ sets.
+	\item $pie\_complement(universe\_size, sizes)$: counts elements not in any set.
+\end{itemize}
+\textbf{Standard Problem:} Given $n$ sets, count elements in their union, or count elements in exactly $k$ sets.
+\textbf{Solution:} For union: $|\bigcup A_i| = \sum |A_i| - \sum |A_i \cap A_j| + \sum |A_i \cap A_j \cap A_k| - \cdots$. For exactly $k$: use $|\text{exactly }k| = \sum_{j=k}^n (-1)^{j-k} \binom{j}{k} |\text{at least }j|$. Apply inclusion-exclusion over all subsets.
+\addtemplate{math/pie.cpp}
+\subsection{Grundy Numbers (Nim Game Theory)}
+Grundy number of a position is the mex (minimum excludant) of Grundy numbers of all reachable positions. Used to determine winning positions in impartial games.
+\begin{itemize}
+	\item $mex(s)$: returns minimum non-negative integer not in set $s$.
+	\item $grundy(pos, get\_moves)$: computes Grundy number recursively.
+	\item $grundy\_composite(component\_grundies)$: XOR of component games.
+	\item $grundy\_memoized(pos, get\_moves)$: memoized version for complex games.
+\end{itemize}
+\textbf{Standard Problem:} Determine if a position is winning in Nim or other impartial games.
+\textbf{Solution:} Compute Grundy number: $g(pos) = mex(\{g(next) : next \in moves(pos)\})$. Position is losing iff $g(pos) = 0$. For composite games (multiple independent components), XOR all component Grundy numbers. If result is 0, position is losing; otherwise winning. Advanced: detect periodicity in Grundy sequences for efficiency.
+\addtemplate{math/grundy.cpp}

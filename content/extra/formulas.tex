@@ -1,4 +1,45 @@
-Number of solutions to the equation $x_1 + x_2 + \dots + x_k = n$ where $x_i \ge 0$:
+\textbf{Stars and Bars:} Number of solutions to $x_1 + x_2 + \dots + x_k = n$ where $x_i \ge 0$:
 \[\binom{n + k - 1}{k - 1}\]
-Number of solutions to the equation $x_1 + x_2 + \dots + x_k = n$ where $x_i \ge 1$:
+Number of solutions where $x_i \ge 1$:
 \[\binom{n - 1}{k - 1}\]
+
+\textbf{Arithmetic Series:} $\sum_{i=1}^n i = \frac{n(n+1)}{2}$, $\sum_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}$, $\sum_{i=1}^n i^3 = \left(\frac{n(n+1)}{2}\right)^2$
+
+\textbf{Geometric Series:} $\sum_{i=0}^{n-1} ar^i = a\frac{1-r^n}{1-r}$ for $r \neq 1$
+
+\textbf{Harmonic Series:} $H_n = \sum_{i=1}^n \frac{1}{i} \approx \ln n + \gamma$ where $\gamma \approx 0.577$
+
+\textbf{Sum of Powers:} $\sum_{i=1}^n i^k = \frac{1}{k+1}\sum_{j=0}^k \binom{k+1}{j} B_j (n+1)^{k+1-j}$ (Faulhaber's formula)
+
+\textbf{Pick's Theorem:} For lattice polygon, $A = I + \frac{B}{2} - 1$ where $I$ = interior lattice points, $B$ = boundary lattice points
+
+\textbf{Cauchy-Schwarz:} $(\sum a_i^2)(\sum b_i^2) \ge (\sum a_i b_i)^2$
+
+\textbf{AM-GM:} $\frac{a_1 + \cdots + a_n}{n} \ge \sqrt[n]{a_1 \cdots a_n}$ for $a_i > 0$
+
+\textbf{Handshaking Lemma:} In any graph, $\sum_{v} \deg(v) = 2|E|$ (sum of degrees equals twice number of edges)
+
+\textbf{Pigeonhole Principle:} If $n+1$ objects are placed into $n$ boxes, at least one box contains more than one object
+
+\textbf{Lucas' Theorem:} $\binom{n}{k} \equiv \prod_i \binom{n_i}{k_i} \pmod{p}$ where $n = \sum n_i p^i$, $k = \sum k_i p^i$
+
+\textbf{Chinese Remainder Theorem:} If $\gcd(m_i, m_j) = 1$ for all $i \neq j$, system $x \equiv a_i \pmod{m_i}$ has unique solution modulo $\prod m_i$
+
+\textbf{Generating Functions:} For sequence $\{a_n\}$, generating function is $G(x) = \sum_{n=0}^{\infty} a_n x^n$
+
+\textbf{Common Generating Functions:}
+\begin{itemize}
+	\item $\frac{1}{1-x} = \sum_{n=0}^{\infty} x^n$ (geometric series)
+	\item $\frac{1}{(1-x)^k} = \sum_{n=0}^{\infty} \binom{n+k-1}{k-1} x^n$ (stars and bars)
+	\item $(1+x)^n = \sum_{k=0}^{n} \binom{n}{k} x^k$ (binomial theorem)
+	\item $e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!}$ (exponential)
+	\item $\ln(1+x) = \sum_{n=1}^{\infty} \frac{(-1)^{n+1} x^n}{n}$ for $|x| < 1$
+\end{itemize}
+
+\textbf{Operations on Generating Functions:}
+\begin{itemize}
+	\item Addition: $G_{a+b}(x) = G_a(x) + G_b(x)$
+	\item Convolution: $G_{a*b}(x) = G_a(x) \cdot G_b(x)$ where $(a*b)_n = \sum_{i+j=n} a_i b_j$
+	\item Shift: $x^k G(x)$ generates sequence shifted by $k$
+	\item Differentiation: $G'(x)$ generates $\{na_n\}$
+\end{itemize}

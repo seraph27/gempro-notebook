@@ -1,8 +1,11 @@
+
 #include <vector>
 
+#define int long long
 using namespace std;
 
 // begin template //
+using namespace std;
 vector<int> subsetZeta(vector<int> a) {
 	int n = a.size();
 	for (int j = 1; j < n; j <<= 1)

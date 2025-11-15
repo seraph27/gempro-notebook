@@ -1,4 +1,18 @@
-\subsection{KMP}
-Given a string $S$, computes an array $pre$ such that \[pre[i] = \text{ largest value of } k < i \text{ such that } S_0 S_1 \cdots S_{k - 1} = S_{i - k + 1}S_{i - k + 2} \cdots S_i \]
-Complexity: $O(n)$.
-\addtemplate{strings/kmp.cpp}
+\subsection{Suffix Array}
+Builds sorted array of all suffixes of a string. Enables efficient substring queries and pattern matching. Complexity: $O(n \log^2 n)$ construction.
+\begin{itemize}
+	\item $build\_suffix\_array(s)$: returns suffix array $sa$ where $sa[i]$ = starting index of $i$-th smallest suffix.
+	\item $build\_lcp(s, sa)$: returns LCP array where $lcp[i]$ = longest common prefix between $sa[i]$ and $sa[i+1]$.
+\end{itemize}
+\textbf{Standard Problem:} Given string $s$, find all occurrences of pattern $p$, or find longest repeated substring, or compare substrings lexicographically.
+\textbf{Solution:} Build suffix array using doubling method: sort by first $k$ characters, then by next $k$ characters. Use LCP array for efficient pattern matching: binary search on suffix array to find range of suffixes starting with pattern. LCP enables efficient substring comparison: $lcp(l, r) = \min(lcp[l], lcp[l+1], \ldots, lcp[r-1])$.
+\addtemplate{strings/suffix-array.cpp}
+\subsection{Manacher's Algorithm}
+Finds longest palindromic substring efficiently. Computes palindromes centered at each position. Complexity: $O(n)$.
+\begin{itemize}
+	\item $manacher(s)$: returns $\{d1, d2\}$ where $d1[i]$ = length of odd palindrome centered at $i$, $d2[i]$ = length of even palindrome centered between $i-1$ and $i$.
+	\item $longest\_palindrome(s)$: returns longest palindromic substring.
+\end{itemize}
+\textbf{Standard Problem:} Given a string, find the longest palindromic substring.
+\textbf{Solution:} Maintain rightmost palindrome $[l, r]$. For position $i$: if $i \leq r$, use mirror $d[l+r-i]$; extend while characters match. Update $[l, r]$ when palindrome extends beyond $r$. Handles both odd and even length palindromes separately.
+\addtemplate{strings/manacher.cpp}

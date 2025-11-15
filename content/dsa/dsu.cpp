@@ -1,8 +1,11 @@
-#include <vector>
+
+
+#include <algorithm>
 #include <numeric>
-using namespace std;
+#include <vector>
 
 // begin template //
+using namespace std;
 struct DSU {
 	vector<int> par, cnt;
 	DSU(int n): par(n), cnt(n) {

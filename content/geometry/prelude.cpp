@@ -1,10 +1,12 @@
 #include <complex>
 
+#define int long long
 using namespace std;
 
-using i64 = long long;
+using i64 = int;
 
 // begin template //
+using namespace std;
 using D = i64;
 using point = complex<D>;
 

@@ -1,8 +1,11 @@
+
 #include <vector>
 
+#define int long long
 using namespace std;
 
 // begin template //
+using namespace std;
 template<class S, S (*op)(S, S), S (*e)()>
 struct Segtree {
 	vector<S> t;
